@@ -258,6 +258,31 @@ namespace FileUploadApi_11.Controllers
             {
                 File.CopyTo(stream);
             }
+            
+            
+            // Multiple File upload
+            
+            
+                var path = _configuration.GetSection("DrivePath").Value;
+            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), path);
+
+
+            foreach (var f in fileData.Files)
+            {
+
+                var setDrivePath = Path.Combine(pathToSave, f.FileName);
+
+                using (var stream = new FileStream(setDrivePath, FileMode.Create))
+                {
+                    f.CopyTo(stream);
+                    
+                }
+
+            }
+            // close
+            
+            
+            
         }
 
     }
