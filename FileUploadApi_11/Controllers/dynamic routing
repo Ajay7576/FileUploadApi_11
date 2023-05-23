@@ -1,0 +1,90 @@
+<template>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">Practise Project</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" v-for="item in linkItem" :key="item.name">
+          <router-link
+            :to="{ path: item.name || { params: { name: item.name } } }"
+            class="nav-link"
+          >
+            {{ item.name }}
+          </router-link>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div></div>
+</template>
+
+<script>
+// import PrivacyView from "../components/PrivacyView.vue";
+
+export default {
+  name: "AboutView",
+  data() {
+    const isRoute = [
+      { name: "About" },
+      { name: "Contact" },
+      { name: "Privacy" },
+      { name: "Terms" },
+      { name: "Login" },
+      { name: "Home" },
+    ];
+
+    const results = this.$router.options.routes;
+    console.log("res", results);
+    return {
+      isRoute,
+      results,
+      linkItem: [],
+    };
+  },
+
+  mounted() {
+    debugger; // eslint-disable-line
+
+    this.isRoute.forEach((item) => {
+      const results2 = this.results.filter(
+        (person) => person.name == item.name
+      );
+
+      if (results2.length > 0) {
+        debugger; // eslint-disable-line
+
+        this.linkItem.push({
+          path: `${item.name}`,
+          name: item.name,
+        });
+      } else {
+        debugger; // eslint-disable-line
+
+        this.$router.options.routes.push({
+          path: `/:name`,
+          name: item.name,
+          params: { name: item.name },
+        });
+
+        this.linkItem.push({
+          path: `${item.name}`,
+          name: `${item.name}`,
+          params: { name: item.name },
+        });
+      }
+    });
+  },
+};
+</script>
+<style></style>
